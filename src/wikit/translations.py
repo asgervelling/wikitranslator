@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import requests
 from bs4 import BeautifulSoup, element
 from typing import Union
@@ -20,16 +19,16 @@ Return the title:
 
 
 """ Case 1:
-        from_lang:   da
-        to_lang:     en 
-        term:   "Lineær algebra"
+        from_lang: da
+        to_lang: en
+        term: "Lineær algebra"
 
         Expected result: "Linear algebra"
 
     Case 2:
-        from_lang:   en
-        to_lang:     da
-        term:   Invertible matrix
+        from_lang: en
+        to_lang: da
+        term: Invertible matrix
 
         Expected result: None
         (Article does not exist in Danish)
@@ -48,7 +47,7 @@ def translate(from_lang, to_lang, term):
             soup = BeautifulSoup(make_request(link).content, 'html.parser')
             title = clean_title(soup.title)
             return title
-    
+
 
 def language_links(article: BeautifulSoup):
     links = [(el.get('lang'), el.get('href')) for el in article.select('li.interlanguage-link > a')]
@@ -65,11 +64,12 @@ def clean_title(title: Union[element.Tag, str]) -> str:
     s1 = s0.replace('–', '-')
     s2 = s1.replace('<title>', '')
     s3 = s2.replace('</title>', '')
-    
+
     parts = s3.split(sep='-')
     title = parts[0]
     print(title)
     return title.strip()
+
 
 def make_url(lang, term):
     return f'https://{lang}.wikipedia.org/wiki/{term}'

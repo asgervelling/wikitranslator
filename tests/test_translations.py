@@ -1,4 +1,5 @@
-from wikit import clean_title, translate
+import pytest
+from wikit.translations import clean_title, translate
 from bs4 import BeautifulSoup, element
 
 def test_clean_title():
