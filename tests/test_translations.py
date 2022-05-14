@@ -1,6 +1,5 @@
-import pytest
 from wikit.translations import clean_title, translate
-from bs4 import BeautifulSoup, element
+
 
 def test_clean_title():
     assert clean_title('<title>Linear Algebra - Wikipedia</title>') \
@@ -20,4 +19,3 @@ def test_translate():
 
     assert translate('zh', 'tr', '线性代数') \
         == 'Lineer cebir'
-        
