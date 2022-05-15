@@ -42,7 +42,6 @@ def translate(term, from_lang, to_lang, use_proxies=False):
     from_ = get_language_code(from_lang)
     to_ = get_language_code(to_lang)
     from_url = make_url(from_, term)
-    print(from_url)
     wiki_response = wiki_request(from_url, use_proxies=use_proxies)
     from_article = BeautifulSoup(wiki_response.content, 'html.parser')
 

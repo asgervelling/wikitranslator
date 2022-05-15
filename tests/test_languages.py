@@ -23,6 +23,6 @@ def test_is_language():
 
 def test_get_language_code():
     assert get_language_code(' english') == 'en'
-    assert get_language_code('england') is None
+    assert not get_language_code('england')
     assert get_language_code('deu') == 'de'
     assert get_language_code('Deutsch') == 'de'
