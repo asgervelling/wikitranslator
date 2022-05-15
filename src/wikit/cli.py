@@ -1,5 +1,5 @@
 import wikit.translations as translations
-from wikit.languages import is_language, language_codes
+from wikit.languages import is_language
 
 import click
 
@@ -21,11 +21,8 @@ def translate(term, from_lang, to_lang, codes=None):
         click.echo(e)
         return
 
-    
-
     translation = translations.translate(term, from_lang, to_lang)
     click.echo(translation)
-
 
 
 def usage():
@@ -35,6 +32,7 @@ def usage():
         Линейная алгебра
     """)
 
+
 def args_are_valid(term, from_lang, to_lang):
     if not is_language(from_lang):
         usage()
@@ -43,6 +41,7 @@ def args_are_valid(term, from_lang, to_lang):
         usage()
         raise click.BadParameter(f'{to_lang} is not a language')
     return True
+
 
 if __name__ == '__main__':
     translate()
