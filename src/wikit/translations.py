@@ -1,7 +1,10 @@
-import requests
 from bs4 import BeautifulSoup, element
 from typing import Union
+from urllib.parse import unquote
 
+from wikit.languages import get_language_code
+
+from .scrape import wiki_request
 """
 Translate a word that might not be found in a dictionary,
 using Wikipedia article names..
@@ -35,18 +38,26 @@ Return the title:
 """
 
 
-def make_request(url) -> requests.Response:
-    return requests.get(url)
+def translate(term, from_lang, to_lang, use_proxies=False):
+    from_ = get_language_code(from_lang)
+    to_ = get_language_code(to_lang)
+    from_url = make_url(from_, term)
+    print(from_url)
+    wiki_response = wiki_request(from_url, use_proxies=use_proxies)
+    from_article = BeautifulSoup(wiki_response.content, 'html.parser')
 
-
-def translate(term, from_lang, to_lang):
-    from_url = make_url(from_lang, term)
-    from_article = BeautifulSoup(make_request(from_url).content, 'html.parser')
     for lang, link in language_links(from_article):
-        if lang == to_lang:
-            soup = BeautifulSoup(make_request(link).content, 'html.parser')
-            title = clean_title(soup.title)
-            return title
+        if lang == to_:
+            title = title_from_url(link)
+            # soup = BeautifulSoup(wiki_request(link).content, 'html.parser')
+            # title = clean_title(soup.title)
+            return unquote(title)
+
+
+def title_from_url(url: str) -> str:
+    raw_title = url.split('/wiki/')[1]
+    title = raw_title.replace('_', ' ')
+    return title
 
 
 def language_links(article: BeautifulSoup):

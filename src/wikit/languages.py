@@ -1,3 +1,6 @@
+import iso639
+
+
 language_codes = [
     'ad', 'ae', 'af', 'ag', 'ah', 'ai', 'aj', 'ak', 'al', 'am', 'an', 'ao',
     'ap', 'aq', 'ar', 'as', 'at', 'au', 'av', 'aw', 'ax', 'ay', 'az', 'ba',
@@ -54,8 +57,42 @@ language_codes = [
     'yd', 'ye', 'yf', 'yg', 'yh', 'yi', 'yj', 'yk', 'yl', 'ym', 'yn', 'yo',
     'yp', 'yq', 'yr', 'ys', 'yt', 'yu', 'yv', 'yw', 'yx', 'yy', 'yz', 'za',
     'zb', 'zc', 'zd', 'ze', 'zf', 'zg', 'zh', 'zi', 'zj', 'zk', 'zl', 'zm',
-    'zn', 'zo', 'zp', 'zq', 'zr', 'zs', 'zt', 'zu', 'zv', 'zw', 'zx', 'zy', 'zz', '']
+    'zn', 'zo', 'zp', 'zq', 'zr', 'zs', 'zt', 'zu', 'zv', 'zw', 'zx', 'zy', 'zz']
 
 
-def is_language(s: str) -> bool:
+def is_language_code(s: str) -> bool:
     return s in language_codes
+
+
+def clean(lang: str) -> str:
+    return lang.strip().lower()
+
+
+def is_language(lang_input: str) -> bool:
+    if not lang_input:
+        return False
+
+    try:
+        # https://github.com/janpipek/iso639-python
+        iso639.to_iso639_1(clean(lang_input))
+        return True
+    except iso639.NonExistentLanguageError:
+        return False
+
+
+def get_lang_codes_for(term: str, orig_lang: str) -> list[str]:
+    """ Returns all the languages, the article named 'term' is available in, as ISO 639-1 codes.
+        Ex.: (term='Fridtjof Nansen', orig_lang='danish') -> ['da', 'af', 'be', ...]
+    """
+    pass
+
+
+def get_language_code(lang: str) -> str:
+    """ ' english' -> 'en' """
+    if is_language_code(lang):
+        return lang
+
+    if is_language(lang):
+        return str(iso639.to_iso639_1(clean(lang)))
+
+    return ''
