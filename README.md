@@ -18,4 +18,5 @@ pip install .
 ## Usage
 
 Let's translate the term "Linear algebra" from English to Russian:
+
 `wikit "linear algebra" en ru`
