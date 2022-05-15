@@ -11,11 +11,17 @@ def test_clean_title():
 
 
 def test_translate():
-    assert translate('da', 'de', 'lineær algebra') \
+    assert translate('lineær algebra', 'da', 'de') \
         == 'Lineare Algebra'
 
-    assert translate('de', 'zh', 'Lineare Algebra') \
+    assert translate('Lineare Algebra', 'de', 'zh') \
         == '线性代数'
 
-    assert translate('zh', 'tr', '线性代数') \
+    assert translate('线性代数', 'zh', 'tr') \
         == 'Lineer cebir'
+
+    assert translate('Dampmaskine', 'da', 'de') \
+        == 'Dampfmaschine'
+
+    assert translate('Dampmaskine', 'da', 'ur') \
+        == 'دخانی انجن'

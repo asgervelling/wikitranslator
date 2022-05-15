@@ -39,7 +39,7 @@ def make_request(url) -> requests.Response:
     return requests.get(url)
 
 
-def translate(from_lang, to_lang, term):
+def translate(term, from_lang, to_lang):
     from_url = make_url(from_lang, term)
     from_article = BeautifulSoup(make_request(from_url).content, 'html.parser')
     for lang, link in language_links(from_article):
@@ -67,12 +67,8 @@ def clean_title(title: Union[element.Tag, str]) -> str:
 
     parts = s3.split(sep='-')
     title = parts[0]
-    print(title)
     return title.strip()
 
 
 def make_url(lang, term):
     return f'https://{lang}.wikipedia.org/wiki/{term}'
-
-
-print(translate('da', 'de', 'lineær algebra'))
